@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prédiction du Risque Cardio</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            background-image: url('{{ url_for("static", filename="images/heeart.png") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* NAVBAR */
+        nav {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            position: fixed;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        nav a:hover {
+            transform: scale(1.1);
+            color: #f1c40f;
+        }
+
+        /* FORM CONTAINER */
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.92);
+            margin-top: 120px;
+            width: 780px;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        p.description {
+            color: #34495e;
+            font-size: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Form layout */
+        .form-content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .column {
+            width: 48%;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #bbb;
+            font-size: 15px;
+        }
+
+        /* BUTTONS */
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 5px;
+            color: white;
+            transition: 0.3s ease;
+        }
+
+        .predict-btn {
+            background-color: #3498db;
+        }
+
+        .predict-btn:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .reset-btn {
+            background-color: #e74c3c;
+        }
+
+        .reset-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 800px) {
+            .form-container { width: 90%; }
+            .form-content { flex-direction: column; }
+            .column { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+    <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Accueil</a>
+    <a href="{{ url_for('info') }}"><i class="fas fa-info-circle"></i> À propos</a>
+    <a href="/history">Historique</a>
+
+</nav>
+
+<div class="form-container">
+    <h1><i class="fas fa-heartbeat"></i> Prédiction du Risque Cardiovasculaire</h1>
+    <p class="description">
+        Veuillez remplir les informations suivantes pour estimer votre risque cardiovasculaire.
+    </p>
+
+    <form action="/predict" method="post">
+        <div class="form-content">
+
+            <!-- Colonne 1 -->
+            <div class="column">
+
+                <div class="form-group">
+                    <label>Âge (années)</label>
+                    <input type="number" name="age_years" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Taille (cm)</label>
+                    <input type="number" name="height" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Poids (kg)</label>
+                    <input type="number" name="weight" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Cholestérol (1 = normal, 2 = élevé, 3 = très élevé)</label>
+                    <select name="cholesterol" required>
+                        <option value="">-- Sélectionner --</option>
+                        <option value="1">1 - Normal</option>
+                        <option value="2">2 - Élevé</option>
+                        <option value="3">3 - Très élevé</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Glycémie (1 à 3)</label>
+                    <select name="gluc" required>
+                        <option value="">-- Sélectionner --</option>
+                        <option value="1">1 - Normal</option>
+                        <option value="2">2 - Élevée</option>
+                        <option value="3">3 - Très élevée</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Colonne 2 -->
+            <div class="column">
+
+                <div class="form-group">
+                    <label>Pression systolique (ap_hi)</label>
+                    <input type="number" name="ap_hi" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Pression diastolique (ap_lo)</label>
+                    <input type="number" name="ap_lo" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Fumeur</label>
+                    <select name="smoke" required>
+                        <option value="">-- Sélectionner --</option>
+                        <option value="0">0 - Non</option>
+                        <option value="1">1 - Oui</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Alcool</label>
+                    <select name="alco" required>
+                        <option value="">-- Sélectionner --</option>
+                        <option value="0">0 - Non</option>
+                        <option value="1">1 - Oui</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Actif physiquement</label>
+                    <select name="active" required>
+                        <option value="">-- Sélectionner --</option>
+                        <option value="0">0 - Non</option>
+                        <option value="1">1 - Oui</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Sexe</label>
+                    <select name="gender" required>
+                        <option value="">-- Sélectionner --</option>
+                        <option value="1">1 - Femme</option>
+                        <option value="2">2 - Homme</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button type="submit" class="button predict-btn"><i class="fas fa-search"></i> Prédire</button>
+            <button type="reset" class="button reset-btn"><i class="fas fa-undo"></i> Annuler</button>
+        
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

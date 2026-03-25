@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations - Projet de Prédiction Cardio</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url('{{ url_for("static", filename="images/heeart.png") }}') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+
+        /* NAVBAR */
+        nav {
+            width: 100%;
+            background-color: rgba(11, 11, 11, 0.85);
+            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            position: fixed;
+            top: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+        }
+
+        nav a {
+            color: #fff;
+            font-size: 18px;
+            margin: 0 15px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        nav a:hover {
+            transform: scale(1.1);
+            color: #f1c40f;
+        }
+
+        /* CONTAINER */
+        .container {
+            background: rgba(255,255,255,0.8);
+            padding: 40px;
+            margin-top: 110px;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 15px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.25);
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-top: 25px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #34495e;
+            line-height: 1.5;
+        }
+
+        ul {
+            text-align: left;
+            font-size: 1.1em;
+            color: #34495e;
+            margin-left: 25px;
+            line-height: 1.5;
+        }
+
+        .button {
+            margin-top: 25px;
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #3498db;
+            text-decoration: none;
+            color: white;
+            border-radius: 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 25px; }
+            h1 { font-size: 2.2em; }
+            h2 { font-size: 1.5em; }
+            p { font-size: 1em; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Accueil</a>
+    <a href="{{ url_for('predictor') }}"><i class="fas fa-stethoscope"></i> Prédiction</a>
+</nav>
+
+<div class="container">
+    <h1>Informations sur le Projet Cardio</h1>
+
+    <p>
+        Ce projet a été réalisé dans le cadre du Master IA & Data Science.  
+        Il vise à prédire le risque de maladie cardiovasculaire à partir de données médicales et de style de vie, 
+        en utilisant des modèles d'apprentissage automatique.
+    </p>
+
+    <h2>📌 Dataset utilisé</h2>
+    <p>
+        Le dataset <strong>Cardiovascular Disease Dataset</strong> contient plus de 70 000 patients avec des informations telles que :
+    </p>
+    <ul>
+        <li>Âge, taille, poids (BMI)</li>
+        <li>Tension artérielle systolique et diastolique</li>
+        <li>Cholestérol et glycémie</li>
+        <li>Habitudes : tabac, alcool, activité physique</li>
+    </ul>
+
+    <h2>🎯 Objectif du modèle</h2>
+    <p>
+        Prédire la variable cible <strong>cardio</strong> (0 = pas de maladie, 1 = maladie cardiovasculaire).
+    </p>
+
+    <h2>🤖 Modèles de classification testés</h2>
+    <ul>
+        <li><strong>Régression Logistique</strong> – modèle simple</li>
+        <li><strong>Random Forest</strong> – modèle intermédiaire</li>
+        <li><strong>XGBoost</strong> – modèle avancé (meilleure performance)</li>
+    </ul>
+
+    <h2>💡 Modèle final utilisé dans le dashboard</h2>
+    <p>
+        Le dashboard utilise le modèle <strong>XGBoost</strong>, car il offre les meilleures performances (≈73% de précision),
+        gère très bien les relations non linéaires et est robuste face aux variations du dataset.
+    </p>
+
+    
+
+    <a href="{{ url_for('home') }}" class="button">
+        <i class="fas fa-arrow-left"></i> Retour à l'accueil
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats de la Prédiction</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url('{{ url_for("static", filename="images/heeart.png") }}') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+
+        /* NAVBAR */
+        nav {
+            width: 100%;
+            background-color: rgba(11, 11, 11, 0.8);
+            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            position: fixed;
+            top: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+        }
+
+        nav a {
+            color: #fff;
+            font-size: 18px;
+            margin: 0 15px;
+            padding: 10px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #121013;
+            border-radius: 5px;
+            transform: scale(1.1);
+        }
+
+        /* RESULT CARD */
+        .result-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 35px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 650px;
+            margin-top: 120px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.25);
+            color: #2c3e50;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        /* RISK COLOR BLOCK */
+        .prediction-box {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .low {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .moderate {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .high {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .details-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #4a90e2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .feature-item {
+            background-color: #e3f2fd;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 1em;
+            color: #1565c0;
+            font-weight: 500;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .back-button {
+            background-color: #4a90e2;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #357ab7;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Accueil</a>
+    <a href="{{ url_for('predictor') }}"><i class="fas fa-stethoscope"></i> Prédiction</a>
+    <a href="{{ url_for('info') }}"><i class="fas fa-info-circle"></i> À propos</a>
+</nav>
+
+<!-- RESULT CARD -->
+<div class="result-container">
+
+    <h1>Résultat de la Prédiction</h1>
+
+    <!-- BLOCK COLOR DYNAMIQUE SELON RISQUE -->
+    {% set risk_class = "low" %}
+    {% if result.risk_level == "Modéré" %}
+        {% set risk_class = "moderate" %}
+    {% elif result.risk_level == "Élevé" %}
+        {% set risk_class = "high" %}
+    {% endif %}
+
+    <div class="prediction-box {{ risk_class }}">
+        <p><strong>{{ result.prediction }}</strong></p>
+        <p>Probabilité : <strong>{{ result.probability }}%</strong></p>
+        <p>Niveau de risque : <strong>{{ result.risk_level }}</strong></p>
+    </div>
+
+    <!-- FEATURE DETAILS -->
+    <div class="details-title">Détails des paramètres</div>
+
+    <div class="feature-grid">
+        {% for key, value in result.features.items() %}
+            <div class="feature-item">
+                <strong>{{ key }} :</strong> {{ value }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="button-container">
+        <a href="{{ url_for('predictor') }}" class="back-button">
+            <i class="fas fa-redo"></i> Nouvelle prédiction
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

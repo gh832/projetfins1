@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Historique des prédictions</title>
+    <style>
+        body { font-family: Arial; padding: 30px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: center; }
+        th { background: #3498db; color: white; }
+    </style>
+</head>
+<body>
+
+<h2>Historique des patients analysés</h2>
+
+{% for table in tables %}
+    {{ table | safe }}
+{% endfor %}
+
+<br>
+<a href="/predictor">Retour à la prédiction</a>
+
+</body>
+</html>
